@@ -3,37 +3,17 @@ version 43
 __lua__
 -- draw
 function _draw()
- -- cls()
---  spr(0,0,0)
---  x=3 y=3
- -- cls()
-  cercle(x,y,col)
-  col+=1
-  if (col>12) col=9
---  circfill(125,3,3,9)
---  circfill(x,y,3,cs)
-  local position={}
-  position.x=x
-  position.y=y
-  add(chemin,position)
-  local l=#chemin
-  if l>len then
-   -- print(l)
-    local a=chemin[1]
-    -- print(a.x)
-    -- print(a.y)
-  --  circfill(a.x,a.y,3,0)
-    cercle(a.x,a.y,0)
-    del(chemin,a)
-  end
- -- print(s)
+  cls()
+  avance_serpent(x,y)
+  dessine_serpent()
 end
 -->8
 --
 function _init()
   cls()
+  v=2.5
   col=10
-  len=50
+  len=5
  -- cercle(2,3)
   xx=2
   yy=3
@@ -45,34 +25,59 @@ function _init()
 -- s : sens d g h b
   s='g'
   chemin={}
-  for i=1,10
-  do
-	 cercle(x-i,y,10)
-	 local position={}
-  position.x=x-i
-  position.y=y
-  add(chemin,position)
-	 end
-	 cercle(x+1,y,0)
-	 x-=10
 end
 -->8
+-- update
 function _update()
   if (btnp(⬆️)and s!='b')s='h'
   if (btnp(⬇️)and s!='h')s='b'
   if (btnp(⬅️)and s!='d')s='g'
   if (btnp(➡️)and s!='g')s='d'
-  if (s=='g') x-=1
-  if (s=='d') x+=1
-  if (s=='h') y-=1
-  if (s=='b') y+=1
+  if (s=='g') x-=v
+  if (s=='d') x+=v
+  if (s=='h') y-=v
+  if (s=='b') y+=v
   x%=128
   y%=128
 end
 -->8
+-- todo
+-- 1 test vitesse pas entiere
+-- redessinmer tout le serpent
+-- pour voir
 
 -->8
+-- redessine serpent
+-- a partir tableau chemin
+function dessine_serpent()
 
+local c=9
+local l=len
+for i=#chemin,1,-1 do
+ -- print(i)
+  
+  p=chemin[i]
+  if (l>0) 
+  then
+    cercle(p.x,p.y,c)
+    c+=1
+    if (c>12) c=9
+  else 
+    del(chemin,p)
+  end
+  
+  l-=1
+end
+
+end
+
+function avance_serpent(x,y)
+  local p={}
+  p.x=x
+  p.y=y
+ -- p.c=c
+  add(chemin,p)
+end
 -->8
 function 
 cercleourectangle(x,y,c)
