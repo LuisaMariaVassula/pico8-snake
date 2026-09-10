@@ -13,8 +13,8 @@ function _init()
   cls()
   v=2.5
   col=10
-  len=5
- -- cercle(2,3)
+  len=30
+-- cercle(2,3)
   xx=2
   yy=3
 --  cercle(128-6,0)
@@ -25,6 +25,7 @@ function _init()
 -- s : sens d g h b
   s='g'
   chemin={}
+  init_collision()
 end
 -->8
 -- update
@@ -39,12 +40,35 @@ function _update()
   if (s=='b') y+=v
   x%=128
   y%=128
+  if collioupas()
+  then
+    v=0  print("boom")
+  end
 end
 -->8
 -- todo
 -- 1 test vitesse pas entiere
 -- redessinmer tout le serpent
 -- pour voir
+-- vitesse a 2.5 ca passe
+-- redessiner serpent 
+-- ca va ramer quand serpent
+-- grand, peut etre passer em
+-- mono couleur sans redessiner
+-- au dessus d'un seuil
+-- la longueur du serpent est
+-- aussi proportionnel a la 
+-- vitesse
+-- 
+-- collision en testant couleur
+-- avec pget rappel x y => coin
+-- sup gauche de la tete du ser
+-- pent
+-- premier approche tester 3
+-- point a la nouvelle position
+-- au milieu a droite et a gauche
+-- devant ca depent de la direction
+-- actuelle
 
 -->8
 -- redessine serpent
@@ -126,6 +150,107 @@ cercleourectangle(x,y,c)
 	end
 	
 end
+-->8
+-- collision
+-- utilise globales x y s
+function collioupas()
+local pp=d[s]
+local xx=0
+local yy=0
+local cp
+for p in all(pp) do
+  xx=x+p.dx
+  yy=y+p.dy
+  cp=pget(xx,yy)
+  if cp>=9 and cp<=12
+  then
+    return true
+  end 
+end
+  return false
+end
+-- on va predefinir une table
+-- avec les deltas des points
+-- a tester en fct de la direction
+-- tables d={}
+function init_collision()
+d={}
+-- direction droite
+local points={}
+local delta={}
+delta.dx=5
+delta.dy=0
+add(points,delta)
+delta={}
+delta.dx=5
+delta.dy=2
+add(points,delta)
+delta={}
+delta.dx=5
+delta.dy=5
+add(points,delta)
+d["d"]=points
+
+-- direction gauche
+points={}
+delta={}
+delta.dx=0
+delta.dy=0
+add(points,delta)
+delta={}
+delta.dx=0
+delta.dy=2
+add(points,delta)
+delta={}
+delta.dx=0
+delta.dy=5
+add(points,delta)
+d["g"]=points
+
+-- haut
+points={}
+delta={}
+delta.dx=0
+delta.dy=0
+add(points,delta)
+delta={}
+delta.dx=2
+delta.dy=0
+add(points,delta)
+delta={}
+delta.dx=5
+delta.dy=0
+add(points,delta)
+d["h"]=points
+
+-- bas
+points={}
+delta={}
+delta.dx=0
+delta.dy=5
+add(points,delta)
+delta={}
+delta.dx=2
+delta.dy=5
+add(points,delta)
+delta={}
+delta.dx=5
+delta.dy=5
+add(points,delta)
+d["b"]=points
+
+
+toto=d["b"]
+for p in all(toto) do
+print( p.dx)
+print( p.dy)
+end
+
+
+
+
+end
+
 __gfx__
 99999999000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 99999999000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
