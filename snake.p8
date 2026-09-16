@@ -12,6 +12,8 @@ end
 -- initialisation
 function _init()
   cls()
+  dmin=30
+  dmax=128-dmin
   initpomme()
   v=2.5
   l=0
@@ -225,6 +227,7 @@ for p in all(pp) do
   then
     cop=true
     pv=false
+    tp=t()+5
     return true
   end
 end
@@ -328,18 +331,27 @@ function updatepomme()
   if not pv and t()>tp
   then
     pv=true
-    xp=60
-    yp=60
-    tp=t()+5
+    hazard=rnd(dmax-dmin)+dmin
+    angle=rnd(1)
+    xp=flr(x+(60+
+        (cos(angle)*hazard)))
+        %120
+    yp=flr(y+(60+(
+       hazard*sin(angle))))%120
   end
 end
 
 function dessinepomme()
    if pv
    then
+    print(xp)
+    print(yp) 
     spr(0,xp,yp)
+   else
+   -- spr(0,120,120)
    end
 end
+
 __gfx__
 03300033000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 03338333003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
