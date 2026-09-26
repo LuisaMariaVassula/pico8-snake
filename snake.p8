@@ -16,9 +16,13 @@ function _init()
   dmax=128-dmin
   initpomme()
   v=2.5
+  --v=1
   l=0
   col=10
   len=33
+  len=4
+   hh=60
+ ll=60
 -- cercle(2,3)
   xx=2
   yy=3
@@ -175,28 +179,33 @@ end
 -- dessine du cercle sur les 
 -- bords
 -- x y centre du cercle
+-- hh hauteur
+-- ll largeur
 function cercle(x,y,c)
 -- print(" ")
 -- print(x)
- x%=128
-	y%=128
+
+ clip(0,0,ll,hh)
+ x%=ll
+	y%=hh
+	
 --	circfill(x+3,y+3,3,c)
 cercleourectangle(x,y,c)
 	local xa=false
 	local xx=0
 	local ya=false
 	local yy=0
-	if x >= 122
+	if x >= ll-6
 	then
 	  xa=true
-	  xx=x-128
+	  xx=x-ll
 	 -- circfill(xx+3,y+3,3,c)
 	 cercleourectangle(xx,y,c)
 	end
-	if y >= 122
+	if y >= hh-6
 	then
 	  ya=true
-	  yy=y-128
+	  yy=y-hh
 --	  circfill(x+3,yy+3,3,c)
 	  cercleourectangle(x,yy,c)
 	end
@@ -218,7 +227,7 @@ local cp
 for p in all(pp) do
   xx=x+p.dx
   yy=y+p.dy
-  cp=pget(xx%128,yy%128)
+  cp=pget(xx%ll,yy%hh)
   if cp>=9 and cp<=12
   then
     cop=false
@@ -335,9 +344,9 @@ function updatepomme()
     angle=rnd(1)
     xp=flr(x+(60+
         (cos(angle)*hazard)))
-        %120
+        %(ll-8)
     yp=flr(y+(60+(
-       hazard*sin(angle))))%120
+       hazard*sin(angle))))%(hh-8)
   end
 end
 
